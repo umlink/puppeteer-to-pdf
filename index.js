@@ -7,21 +7,27 @@ const puppeteer = require('puppeteer')
 const app = new Koa();
 const router = new KoaRouter()
 
-router.get('/developers/pdf',  async(ctx) => {
-  console.log(0)
+router.get('/file-api/dps/create-pdf',  async(ctx) => {
+  const { fileName, token, url } = ctx.request.query
   const browser = await puppeteer.launch({
     headless: true,
-    timeout: 100000,
+    timeout: 30000,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: '//Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+    // executablePath: '//Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
   });
   const page = await browser.newPage();
-  await page.goto('https://www.developers.pub/article/603', {waitUntil: 'networkidle0'});
+  page.setCookie({
+    name: '__dp_tk__',
+    value: token,
+    domain: 'www.developers.pub'
+  })
+  await page.goto(url, {waitUntil: 'networkidle0'});
   const pdf = await page.pdf({
-    format: 'A4'
+    format: 'A4',
+    margin: { top: 30, bottom: 30, left: 30, right: 30 }
   });
   await browser.close();
-  ctx.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length })
+  ctx.set('Content-disposition', `attachment; filename=${fileName}.pdf`);
   ctx.body = pdf
 })
 
