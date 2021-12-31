@@ -9,6 +9,7 @@ const router = new KoaRouter()
 
 router.get('/file-api/dps/create-pdf',  async(ctx) => {
   const { fileName, token, url } = ctx.request.query
+  console.log(fileName, token, url)
   const browser = await puppeteer.launch({
     headless: true,
     timeout: 30000,
