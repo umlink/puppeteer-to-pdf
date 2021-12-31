@@ -10,6 +10,14 @@ const router = new KoaRouter()
 router.get('/file-api/dps/create-pdf',  async(ctx) => {
   const { fileName, token, url } = ctx.request.query
   console.log(fileName, token, url)
+  if (!fileName || !token || !url) {
+    ctx.body = {
+      code: 0,
+      data: '',
+      message: 'fileName,token,url都不可为空'
+    }
+    return
+  }
   const browser = await puppeteer.launch({
     headless: true,
     timeout: 30000,
