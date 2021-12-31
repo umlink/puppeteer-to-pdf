@@ -25,7 +25,7 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
     // executablePath: '//Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
   });
   const page = await browser.newPage();
-  page.setCookie({
+  await page.setCookie({
     name: '__dp_tk__',
     value: token,
     domain: 'www.developers.pub'
@@ -33,7 +33,7 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
   await page.goto(url, {waitUntil: 'networkidle0'});
   const pdf = await page.pdf({
     format: 'A4',
-    margin: { top: 30, bottom: 30, left: 30, right: 30 }
+    margin: { top: 38, bottom: 38, left: 10, right: 10 }
   });
   await browser.close();
   ctx.set('Content-disposition', `attachment; filename=${fileName}.pdf`);
