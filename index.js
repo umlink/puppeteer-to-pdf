@@ -38,7 +38,8 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
   await browser.close();
   let newFileName = encodeURIComponent(fileName,"GBK")
   newFileName = newFileName.toString('iso8859-1')
-  ctx.set('Content-disposition', `attachment;filename=${newFileName}.pdf`, 'application/pdf;charset=utf-8');
+  ctx.set({ 'Content-Type': 'application/pdf;charset=utf-8' })
+  ctx.set('Content-disposition', `attachment;filename=${newFileName}.pdf`);
   ctx.body = pdf
 })
 
