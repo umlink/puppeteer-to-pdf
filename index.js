@@ -22,7 +22,7 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
     headless: true,
     timeout: 30000,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // executablePath: '//Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+    // executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
   });
   const page = await browser.newPage();
   await page.setCookie({
@@ -33,12 +33,12 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
   await page.goto(url, {waitUntil: 'networkidle0'});
   const pdf = await page.pdf({
     format: 'A4',
-    margin: { top: 38, bottom: 38, left: 10, right: 10 }
+    margin: { top: 35, bottom: 35, left: 0, right: 0 }
   });
   await browser.close();
   let newFileName = encodeURIComponent(fileName,"GBK")
   newFileName = newFileName.toString('iso8859-1')
-  ctx.set('Content-disposition', `attachment; filename=${newFileName}.pdf`);
+  ctx.set('Content-disposition', `attachment;filename=${newFileName}.pdf`, 'application/pdf;charset=utf-8');
   ctx.body = pdf
 })
 
