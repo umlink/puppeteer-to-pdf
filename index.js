@@ -6,6 +6,13 @@ const puppeteer = require('puppeteer')
 
 const app = new Koa();
 const router = new KoaRouter()
+let browser
+puppeteer.launch({
+  headless: true,
+  timeout: 30000,
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  // executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+}).then(b => browser = b)
 
 router.get('/file-api/dps/create-pdf',  async(ctx) => {
   const { fileName, token, url } = ctx.request.query
@@ -18,12 +25,6 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
     }
     return
   }
-  const browser = await puppeteer.launch({
-    headless: true,
-    timeout: 30000,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-  });
   const page = await browser.newPage();
   await page.setCookie({
     name: '__dp_tk__',
