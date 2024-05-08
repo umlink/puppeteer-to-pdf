@@ -11,7 +11,7 @@ puppeteer.launch({
   headless: true,
   timeout: 30000,
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  // executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+  executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 }).then(b => browser = b)
 
 router.get('/file-api/dps/create-pdf',  async(ctx) => {
@@ -36,7 +36,7 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
     format: 'A4',
     margin: { top: 35, bottom: 35, left: 0, right: 0 }
   });
-  await browser.close();
+  await page.close();
   let newFileName = encodeURIComponent(fileName,"GBK")
   newFileName = newFileName.toString('iso8859-1')
   ctx.set({ 'Content-Type': 'application/pdf;charset=utf-8' })
@@ -48,6 +48,6 @@ app.use(json())
 app.use(logger())
 app.use(router.routes())
 
-app.listen(80, () => {
-  console.log('listen: 80...')
+app.listen(8088, () => {
+  console.log('listen: 8088...')
 })
