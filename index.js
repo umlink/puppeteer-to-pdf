@@ -11,7 +11,7 @@ puppeteer.launch({
   headless: true,
   timeout: 30000,
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+  // executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 }).then(b => browser = b)
 
 router.get('/file-api/dps/create-pdf',  async(ctx) => {
