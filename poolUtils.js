@@ -18,7 +18,9 @@ const initPuppeteerPool = () => {
     const factory = {
         create: () =>
             puppeteer.launch({
-                // headless:false,//有头模式
+                headless: true,//有头模式
+                timeout: 60000,
+                executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
                 args: [
                     '--no-zygote',
                     '--no-sandbox',
@@ -78,7 +80,24 @@ const initPuppeteerPool = () => {
 }
 global.pp = initPuppeteerPool()
 
-const genImg =  async (opt) => {
+const genPDF =  async (opt) => {
+    try {
+        const browser = await global.pp.use()
+        const page = await browser.newPage();
+        await page.goto(opt.url, {waitUntil: 'networkidle0'});
+        const pdf = await page.pdf({
+            format: 'A4',
+            margin: { top: 35, bottom: 35, left: 0, right: 0 }
+        });
+        await waitTime(opt.waitTime || 0);
+        await page.close()
+        return pdf
+    } catch (error) {
+        throw error
+    }
+}
+
+const genIMG =  async (opt) => {
     try {
         const browser = await global.pp.use()
         const page = await browser.newPage();
@@ -90,7 +109,6 @@ const genImg =  async (opt) => {
         await waitTime(opt.waitTime || 0);
         const ele = await page.$(opt.ele);
         const base64 = await ele.screenshot({
-            // path: "a.png",
             fullPage: false,
             omitBackground: true,
             encoding: 'base64'
@@ -103,5 +121,6 @@ const genImg =  async (opt) => {
 }
 
 module.exports = {
-    genImg
+    genIMG,
+    genPDF
 }
