@@ -80,7 +80,7 @@ const initPuppeteerPool = () => {
 }
 global.pp = initPuppeteerPool()
 
-const genPDF =  async (opt) => {
+const genPDF = async (opt) => {
     try {
         const browser = await global.pp.use()
         const page = await browser.newPage();
@@ -92,7 +92,7 @@ const genPDF =  async (opt) => {
         await page.goto(opt.url, {waitUntil: 'networkidle0'});
         const pdf = await page.pdf({
             format: 'A4',
-            margin: { top: 35, bottom: 35, left: 0, right: 0 }
+            margin: {top: 35, bottom: 35, left: 0, right: 0}
         });
         await waitTime(opt.waitTime || 0);
         await page.close()
@@ -102,7 +102,7 @@ const genPDF =  async (opt) => {
     }
 }
 
-const genIMG =  async (opt) => {
+const genIMG = async (opt) => {
     try {
         const browser = await global.pp.use()
         const page = await browser.newPage();
@@ -119,7 +119,7 @@ const genIMG =  async (opt) => {
             encoding: 'base64'
         });
         await page.close()
-        return 'data:image/png;base64,'+ base64
+        return 'data:image/png;base64,' + base64
     } catch (error) {
         throw error
     }
