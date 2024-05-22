@@ -19,7 +19,7 @@ const initPuppeteerPool = () => {
         create: () =>
             puppeteer.launch({
                 headless: true,//有头模式
-                timeout: 60000,
+                timeout: 30000,
                 executablePath: '//Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
                 args: [
                     '--no-zygote',
@@ -84,6 +84,11 @@ const genPDF =  async (opt) => {
     try {
         const browser = await global.pp.use()
         const page = await browser.newPage();
+        await page.setCookie({
+            name: '__dp_tk__',
+            value: opt.token,
+            domain: 'www.developers.pub'
+        })
         await page.goto(opt.url, {waitUntil: 'networkidle0'});
         const pdf = await page.pdf({
             format: 'A4',

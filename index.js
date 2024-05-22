@@ -12,7 +12,7 @@ const router = new KoaRouter()
 router.get('/file-api/dps/create-pdf',  async(ctx) => {
   console.log(ctx.url)
   const { fileName, token, url } = ctx.request.query
-  console.log(fileName, token, url, new Date())
+  console.log(new Date(), fileName, token, url, )
   if (!fileName || !token || !url) {
     ctx.body = {
       code: 0,
