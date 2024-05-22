@@ -5,7 +5,7 @@ module.exports = {
         args: '',
         instances: 2,
         autorestart: true,
-        watch: false,
+        watch: true,
         max_memory_restart: '800M',
     }]
 };

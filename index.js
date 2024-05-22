@@ -43,6 +43,6 @@ app.use(json())
 app.use(logger())
 app.use(router.routes())
 
-app.listen(8088, () => {
-  console.log('listen: 8088...')
+app.listen(8080, () => {
+  console.log('listen: 8080...')
 })
