@@ -1,7 +1,6 @@
 const Koa = require('koa')
 const KoaRouter = require('koa-router')
 const json = require('koa-json')
-const logger = require('koa-json')
 const { genPDF } = require('./poolUtils')
 const fs = require('fs')
 
@@ -10,7 +9,8 @@ const router = new KoaRouter()
 
 
 router.get('/file-api/dps/create-pdf',  async(ctx) => {
-  console.log(ctx.url)
+  console.log('开始渲染.............')
+  console.time("渲染用时")
   const { fileName, token, url } = ctx.request.query
   console.log(new Date(), fileName, token, url, )
   if (!fileName || !token || !url) {
@@ -36,11 +36,11 @@ router.get('/file-api/dps/create-pdf',  async(ctx) => {
   newFileName = newFileName.toString('iso8859-1')
   ctx.set({ 'Content-Type': 'application/pdf;charset=utf-8' })
   ctx.set('Content-disposition', `attachment;filename=${newFileName}.pdf`);
+  console.timeEnd('渲染用时')
   ctx.body = pdf
 })
 
 app.use(json())
-app.use(logger())
 app.use(router.routes())
 
 app.listen(8080, () => {
