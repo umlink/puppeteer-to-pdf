@@ -32,12 +32,20 @@ router.get('/file-api/dps/create-pdf', async (ctx) => {
             message: '未知异常，请重试'
         }
     })
-    let newFileName = encodeURIComponent(fileName, "GBK")
-    newFileName = newFileName.toString('iso8859-1')
-    ctx.set({'Content-Type': 'application/pdf;charset=utf-8'})
-    ctx.set('Content-disposition', `attachment;filename=${newFileName}.pdf`);
     console.timeEnd('渲染用时')
-    ctx.body = pdf
+    try {
+        let newFileName = encodeURIComponent(fileName, "GBK")
+        newFileName = newFileName.toString('iso8859-1')
+        ctx.set({'Content-Type': 'application/pdf;charset=utf-8'})
+        ctx.set('Content-disposition', `attachment;filename=${newFileName}.pdf`);
+        ctx.body = pdf
+    } catch {
+        ctx.body = {
+            code: 0,
+            data: '',
+            message: '未知异常，请重试'
+        }
+    }
 })
 
 app.use(json())
