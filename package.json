@@ -10,8 +10,7 @@
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
-    "puppeteer": "^11.0.0",
-    "wkhtmltopdf": "^0.4.0"
+    "puppeteer": "^11.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
