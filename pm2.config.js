@@ -1,7 +1,7 @@
 module.exports = {
     apps : [{
         name: 'pdf',
-        script: 'index.js',
+        script: 'src/index.js',
         args: '',
         instances: 3,
         autorestart: true,
