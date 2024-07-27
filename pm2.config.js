@@ -3,7 +3,7 @@ module.exports = {
         name: 'pdf',
         script: 'index.js',
         args: '',
-        instances: 2,
+        instances: 3,
         autorestart: true,
         watch: true,
         max_memory_restart: '800M',

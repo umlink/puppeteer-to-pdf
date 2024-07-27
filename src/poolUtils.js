@@ -102,6 +102,28 @@ const genPDF = async (opt) => {
     }
 }
 
+const genWktPDF = async (opt) => {
+    try {
+        const browser = await global.pp.use()
+        const page = await browser.newPage();
+        await page.setExtraHTTPHeaders({
+            authorization: opt.token,
+        });
+        await page.goto(opt.url, {waitUntil: 'networkidle0'});
+        await waitTime(opt.waitTime || 0);
+        const pdf = await page.pdf({
+            format: 'A4',
+            printBackground: true,
+            margin: opt.margin
+        });
+        await waitTime(opt.waitTime || 0);
+        await page.close()
+        return pdf
+    } catch (error) {
+        throw error
+    }
+}
+
 const genIMG = async (opt) => {
     try {
         const browser = await global.pp.use()
@@ -111,7 +133,6 @@ const genIMG = async (opt) => {
             width: opt.width,
             height: opt.height,
         });
-        await waitTime(opt.waitTime || 0);
         const ele = await page.$(opt.ele);
         const base64 = await ele.screenshot({
             fullPage: false,
@@ -127,5 +148,6 @@ const genIMG = async (opt) => {
 
 module.exports = {
     genIMG,
-    genPDF
+    genPDF,
+    genWktPDF
 }
